@@ -334,6 +334,19 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && ($_POST['nama_hubungan'])) {
                         Nama : <?= $d['nama_keluarga'] ?><br>
                         Pasangan : <?= $d['pasangan'] ?><br>
                         Domisili : <?= $d['domisili'] ?><br>
+
+                        <?php if (!empty(getAnakById((int) $d['id']))) {
+                            echo "Anak : <br>";
+                            foreach (getAnakById((int) $d['id']) as $anak) {
+                                echo " <ol> ";
+                        ?>
+                                <li> <?= $anak ?> </li>
+                        <?php
+                                echo " </ol> ";
+                            }
+                        }
+                        ?>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

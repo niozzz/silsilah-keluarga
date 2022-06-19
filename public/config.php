@@ -46,8 +46,27 @@ function isHubungan($id_keluarga1, $id_keluarga2, $nama_hubungan)
   }
 }
 
+function getAnakById($id)
+{
+  $getAnak = query("SELECT id_keluarga2 FROM hubungan WHERE id_keluarga1 = $id AND nama_hubungan = 'orang tua'");
+
+  $data = [];
+  foreach ($getAnak as $d) {
+    // var_dump($d);
+    $data[] = getNamaKeluargaById($d['id_keluarga2']);
+  }
+
+  return $data;
+  // return $getAnak[0];
+}
+
 // var_dump(getNamaKeluargaById(3));
 // var_dump(isHubungan(5, 8, 'orang tua'));
+// die;
+
+// var_dump(getAnakById(4));
+// die;
+// var_dump(getAnakById(3));
 // die;
 
 ?>
