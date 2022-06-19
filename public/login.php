@@ -1,6 +1,45 @@
 <?php
 
 
+require "config.php";
+if (isset($_POST['submit']))
+{
+    $email = htmlspecialchars($_POST['email']);
+    $password = htmlspecialchars($_POST['password']);
+
+    // ambil data admin
+    $admin = query("SELECT * FROM admin WHERE username = '$email'");
+
+    if (!empty($admin))
+    {
+
+      if (password_verify($password, $admin[0]['password']))
+      
+      {
+          echo "
+          <script>
+          alert ('Selamat Datang!');
+          document.location.href='index.php';
+          </script>
+          ";
+      }else
+      {
+          echo "
+          <script>
+          alert ('Tidak Valid!');
+          // document.location.href='login.php';
+          </script>
+          ";
+      }
+    }else{
+      echo "
+      <script>
+      alert ('Tidak Valid!');
+      // document.location.href='login.php';
+      </script>
+      ";
+  }
+}
 
 ?>
 
@@ -60,41 +99,44 @@
       </nav>
 
       <!-- end Navbar -->
-
-
-
-      <section class="py-xxl-10 pb-0" id="home">
-        <div class="bg-holder bg-size" style="background-image:url(assets/img/gallery/hero-bg.png);background-position:top center;background-size:cover;">
-        </div>
-        <!--/.bg-holder-->
-
-        <div class="container">
-          <div class="row min-vh-xl-100 min-vh-xxl-25">
-            <div class="col-md-5 col-xl-6 col-xxl-7 order-0 order-md-1 text-end"><img class="pt-7 pt-md-0 w-100" src="assets/img/gallery/hero.png" alt="hero-header" /></div>
-            <div class="col-md-75 col-xl-6 col-xxl-5 text-md-start text-center py-6">
-              <h1 class="fw-light font-base fs-6 fs-xxl-7">We're <strong>determined </strong>for<br />your&nbsp;<strong>better life.</strong></h1>
-              <p class="fs-1 mb-5">You can get the care you need 24/7 – be it online or in <br />person. You will be treated by caring specialist doctors. </p><a class="btn btn-lg btn-primary rounded-pill" href="keluarga" role="button">Lihat Silsilah</a>
+      <!-- ============================================-->
+      <!-- <section> begin ============================-->
+        
+        <!-- <section> close ============================-->
+        <!-- ============================================-->
+  
+  
+        <section class="py-8">
+          <div class="container">
+            <div class="row">
+              <div class="bg-holder bg-size" style="background-image:url(assets/img/gallery/dot-bg.png);background-position:bottom right;background-size:auto;">
+              </div>
+              <!--/.bg-holder-->
+  
+              <div class="col-lg-6 z-index-2 mb-5"><img class="w-100" src="assets/img/gallery/appointment.png" alt="..." /></div>
+              <div class="col-lg-6 z-index-2">
+                <h1 class="fw-light font-base fs-6 fs-xxl-7">Halaman <strong>Login Admin</strong></h1>
+                <form class="row g-3" action="" method="POST">
+                  
+                  <div class="col-md-12">
+                    <label class="form-label visually-hidden" for="inputEmail">Email</label>
+                    <input class="form-control form-livedoc-control" id="inputEmail" name="email" type="email" placeholder="Email" />
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label visually-hidden" for="password">Email</label>
+                    <input class="form-control form-livedoc-control" id="password" name="password" type="password" placeholder="Password" />
+                  </div>
+                  
+                  <div class="col-12">
+                    <div class="d-grid">
+                      <button class="btn btn-primary rounded-pill" name="submit" type="submit">Login</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-
-
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      
-      <!-- <section> close ============================-->
-      <!-- ============================================-->
-
-
-
-
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      
-      <!-- <section> close ============================-->
-      <!-- ============================================-->
-
+        </section>
 
       
 
@@ -102,47 +144,6 @@
       <!-- ============================================-->
       <!-- <section> begin ============================-->
       
-      <!-- <section> close ============================-->
-      <!-- ============================================-->
-
-
-      
-
-
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      
-      <!-- <section> close ============================-->
-      <!-- ============================================-->
-
-
-      
-
-
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      
-      <!-- <section> close ============================-->
-      <!-- ============================================-->
-
-
-     
-
-
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      
-      <!-- <section> close ============================-->
-      <!-- ============================================-->
-
-
-      
-
-
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      
-     
       <section class="py-0 bg-secondary">
         
 
