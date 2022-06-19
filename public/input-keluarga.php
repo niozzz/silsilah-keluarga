@@ -121,30 +121,94 @@ if (isset($_POST['submit'])) {
 
                     </div>
                     <div class="col-lg-6 z-index-2">
-                        <h1 class="fw-light font-base fs-6 fs-xxl-7">Input <strong>Nama Keluarga</strong></h1>
-                        <form class="row g-3" action="" method="POST">
 
-                            <div class="col-md-12">
-                                <label class="form-label visually-hidden" for="namaKeluarga">Nama Keluarga</label>
-                                <input class="form-control form-livedoc-control" id="namaKeluarga" name="namaKeluarga" type="text" placeholder="Nama Keluarga (Keturunan Mbah Yutir)" required />
-                            </div>
-                            <div class="col-md-12">
-                                <label class="form-label visually-hidden" for="namaPasangan">Nama Pasangan</label>
-                                <input class="form-control form-livedoc-control" id="namaPasangan" name="namaPasangan" type="text" placeholder="Nama Pasangan (optional)" />
-                            </div>
-                            <div class="col-md-12">
-                                <label class="form-label visually-hidden" for="domisili">Domisili</label>
-                                <!-- <textarea class="form-control form-livedoc-control" id="domisili" name="domisili" type="text" placeholder="Domisili"  required > </textarea> -->
-                                <textarea class="form-control form-livedoc-control" id="domisili" name="domisili" placeholder="Domisili"></textarea>
-                            </div>
+                        <div>
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li class="nav-item">
+                                    <a href="#inputKeluarga" class="nav-link active" data-bs-toggle="tab">Input Keluarga</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#inputHubungan" class="nav-link" data-bs-toggle="tab">Input Hubungan</a>
+                                </li>
+
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="inputKeluarga">
+                                    <h1 class="fw-light font-base fs-6 fs-xxl-7">Input <strong>Nama Keluarga</strong></h1>
+                                    <form class="row g-3" action="" method="POST">
+
+                                        <div class="col-md-12">
+                                            <label class="form-label visually-hidden" for="namaKeluarga">Nama Keluarga</label>
+                                            <input class="form-control form-livedoc-control" id="namaKeluarga" name="namaKeluarga" type="text" placeholder="Nama Keluarga (Keturunan Mbah Yutir)" required />
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="form-label visually-hidden" for="namaPasangan">Nama Pasangan</label>
+                                            <input class="form-control form-livedoc-control" id="namaPasangan" name="namaPasangan" type="text" placeholder="Nama Pasangan (optional)" />
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="form-label visually-hidden" for="domisili">Domisili</label>
+                                            <!-- <textarea class="form-control form-livedoc-control" id="domisili" name="domisili" type="text" placeholder="Domisili"  required > </textarea> -->
+                                            <textarea class="form-control form-livedoc-control" id="domisili" name="domisili" placeholder="Domisili"></textarea>
+                                        </div>
 
 
-                            <div class="col-12">
-                                <div class="d-grid">
-                                    <button class="btn btn-primary rounded-pill" name="submit" type="submit">Submit</button>
+                                        <div class="col-12">
+                                            <div class="d-grid">
+                                                <button class="btn btn-primary rounded-pill" name="submit" type="submit">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
+
+
+                                <!-- input hubungan -->
+                                <div class="tab-pane fade" id="inputHubungan">
+                                    <h1 class="fw-light font-base fs-6 fs-xxl-7">Input <strong>Hubungan</strong></h1>
+                                    <form class="row g-3" action="" method="POST">
+
+                                        <div class="col-md-12">
+                                            <select class="form-select" name="id_keluarga1">
+                                                <option selected disabled required>Pilih Anggota Keluarga</option>
+                                                <?php foreach ($keluarga as $d) : ?>
+                                                    <option value="<?= $d['id'] ?>"><?= $d['nama_keluarga'] ?></option>
+                                                <?php endforeach; ?>
+
+                                            </select>
+
+                                        </div>
+                                        <div class="col-md-12">
+                                            <select class="form-select" name="id_keluarga2">
+                                                <option selected disabled required>Pilih Anggota Keluarga</option>
+                                                <?php foreach ($keluarga as $d) : ?>
+                                                    <option value="<?= $d['id'] ?>"><?= $d['nama_keluarga'] ?></option>
+                                                <?php endforeach; ?>
+
+                                            </select>
+
+                                        </div>
+                                        <div class="col-md-12">
+                                            <select class="form-select" name="nama_hubungan">
+                                                <option selected disabled required>Pilih Nama Hubungan</option>
+                                                <option value="anak">Anak</option>
+                                                <option value="orang tua">Orang Tua</option>
+                                            </select>
+
+                                        </div>
+
+
+
+                                        <div class="col-12">
+                                            <div class="d-grid">
+                                                <button class="btn btn-primary rounded-pill" name="submit" onclick="return confirm('apakah anda yakin?')" type="submit">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
                             </div>
-                        </form>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -198,7 +262,7 @@ if (isset($_POST['submit'])) {
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Anggota Keluarga</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
