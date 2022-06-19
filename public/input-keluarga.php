@@ -5,34 +5,30 @@ require "config.php";
 
 $keluarga = query("SELECT * FROM keluarga");
 
-if (isset($_POST['submit']))
-{
+if (isset($_POST['submit'])) {
     $namaKeluarga = htmlspecialchars($_POST['namaKeluarga']);
     $namaPasangan = htmlspecialchars($_POST['namaPasangan']);
     $domisili = htmlspecialchars($_POST['domisili']);
 
     // masukkan ke tabel keluarga
     $insertKeluarga = mysqli_query($conn, "INSERT INTO keluarga VALUES (NULL, '$namaKeluarga', '$namaPasangan', '$domisili')");
-    
 
-    if (!empty($insertKeluarga))
-      {
-          echo "
+
+    if (!empty($insertKeluarga)) {
+        echo "
           <script>
           alert ('Berhasil!');
           document.location.href='input-keluarga.php';
           </script>
           ";
-      }else
-      {
-          echo "
+    } else {
+        echo "
           <script>
           alert ('Tidak Valid!');
           // document.location.href='input-keluarga.php';
           </script>
           ";
-      }
-    
+    }
 }
 
 ?>
@@ -80,20 +76,15 @@ if (isset($_POST['submit']))
     <main class="main" id="top">
         <!-- Navbar -->
 
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block"
-            data-navbar-on-scroll="data-navbar-on-scroll">
-            <div class="container"><a class="navbar-brand" href="#"><img src="assets/img/gallery/logo.png" width="118"
-                        alt="logo" /></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
+            <div class="container"><a class="navbar-brand" href="#"><img src="assets/img/gallery/logo.png" width="118" alt="logo" /></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon">
                     </span></button>
                 <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto pt-2 pt-lg-0 font-base">
 
                         <li class="nav-item px-2"><a class="nav-link" href="/silsilah/public">Home</a></li>
-                    </ul><a class="btn btn-sm btn-outline-primary rounded-pill order-1 order-lg-0 ms-lg-4"
-                        href="/silsilah/public/login.php">Login</a>
+                    </ul><a class="btn btn-sm btn-outline-primary rounded-pill order-1 order-lg-0 ms-lg-4" href="/silsilah/public/login.php">Login</a>
                 </div>
             </div>
         </nav>
@@ -113,14 +104,20 @@ if (isset($_POST['submit']))
                         <h1 class="fw-light font-base fs-6 fs-xxl-7">Seluruh <strong>Anggota Keluarga </strong></h1>
 
                         <ol class="list-group list-group-numbered">
-                            <?php foreach($keluarga as $d) : ?>
-                            <li class="list-group-item"><?= $d['nama_keluarga'] ?><a
-                                    href="hapus-keluarga.php?idKeluarga=<?= $d['id'] ?>"
-                                    onclick="return confirm('apakah anda yakin?')"><span
-                                        class="badge rounded-pill bg-danger float-end"> Hapus </span> </a></li>
+                            <?php foreach ($keluarga as $d) : ?>
+                                <li class="list-group-item"><?= $d['nama_keluarga'] ?><a href="hapus-keluarga.php?idKeluarga=<?= $d['id'] ?>" onclick="return confirm('apakah anda yakin?')"><span class="badge rounded-pill bg-danger float-end"> Hapus </span> </a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#detail<?= $d['id'] ?>" onclick="function tombol (e) { e.preventDefault()}">
+                                        <span class="badge rounded-pill bg-primary float-end"> Detail </span>
+                                    </a>
+
+                                </li>
+
+
                             <?php endforeach; ?>
 
                         </ol>
+
+
 
                     </div>
                     <div class="col-lg-6 z-index-2">
@@ -129,26 +126,22 @@ if (isset($_POST['submit']))
 
                             <div class="col-md-12">
                                 <label class="form-label visually-hidden" for="namaKeluarga">Nama Keluarga</label>
-                                <input class="form-control form-livedoc-control" id="namaKeluarga" name="namaKeluarga"
-                                    type="text" placeholder="Nama Keluarga (Keturunan Mbah Yutir)" required />
+                                <input class="form-control form-livedoc-control" id="namaKeluarga" name="namaKeluarga" type="text" placeholder="Nama Keluarga (Keturunan Mbah Yutir)" required />
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label visually-hidden" for="namaPasangan">Nama Pasangan</label>
-                                <input class="form-control form-livedoc-control" id="namaPasangan" name="namaPasangan"
-                                    type="text" placeholder="Nama Pasangan (optional)" />
+                                <input class="form-control form-livedoc-control" id="namaPasangan" name="namaPasangan" type="text" placeholder="Nama Pasangan (optional)" />
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label visually-hidden" for="domisili">Domisili</label>
                                 <!-- <textarea class="form-control form-livedoc-control" id="domisili" name="domisili" type="text" placeholder="Domisili"  required > </textarea> -->
-                                <textarea class="form-control form-livedoc-control" id="domisili" name="domisili"
-                                    placeholder="Domisili"></textarea>
+                                <textarea class="form-control form-livedoc-control" id="domisili" name="domisili" placeholder="Domisili"></textarea>
                             </div>
 
 
                             <div class="col-12">
                                 <div class="d-grid">
-                                    <button class="btn btn-primary rounded-pill" name="submit"
-                                        type="submit">Submit</button>
+                                    <button class="btn btn-primary rounded-pill" name="submit" type="submit">Submit</button>
                                 </div>
                             </div>
                         </form>
@@ -157,6 +150,9 @@ if (isset($_POST['submit']))
             </div>
         </section>
 
+
+
+        <!-- Button trigger modal -->
 
 
 
@@ -178,13 +174,10 @@ if (isset($_POST['submit']))
                         </div>
                         <div class="col-12 col-sm-8 col-md-6">
                             <p class="fs--1 my-2 text-center text-md-end text-200"> Made with&nbsp;
-                                <svg class="bi bi-suit-heart-fill" xmlns="http://www.w3.org/2000/svg" width="12"
-                                    height="12" fill="#F95C19" viewBox="0 0 16 16">
-                                    <path
-                                        d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z">
+                                <svg class="bi bi-suit-heart-fill" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="#F95C19" viewBox="0 0 16 16">
+                                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z">
                                     </path>
-                                </svg>&nbsp;by&nbsp;<a class="fw-bold text-info" href="https://themewagon.com/"
-                                    target="_blank">ThemeWagon </a>
+                                </svg>&nbsp;by&nbsp;<a class="fw-bold text-info" href="https://themewagon.com/" target="_blank">ThemeWagon </a>
                             </p>
                         </div>
                     </div>
@@ -198,6 +191,29 @@ if (isset($_POST['submit']))
 
         </section>
     </main>
+
+    <!-- Modal -->
+    <?php foreach ($keluarga as $d) : ?>
+        <div class="modal fade" id="detail<?= $d['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Nama : <?= $d['nama_keluarga'] ?><br>
+                        Pasangan : <?= $d['pasangan'] ?><br>
+                        Domisili : <?= $d['domisili'] ?><br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
@@ -218,9 +234,7 @@ if (isset($_POST['submit']))
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Fjalla+One&amp;family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100&amp;display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&amp;family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100&amp;display=swap" rel="stylesheet">
 </body>
 
 </html>
