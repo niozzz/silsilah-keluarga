@@ -4,22 +4,20 @@
 require "config.php";
 if (isset($_POST['submit']))
 {
-    $email = htmlspecialchars($_POST['email']);
-    $password = htmlspecialchars($_POST['password']);
+    $namaKeluarga = htmlspecialchars($_POST['namaKeluarga']);
+    $namaPasangan = htmlspecialchars($_POST['namaPasangan']);
+    $domisili = htmlspecialchars($_POST['domisili']);
 
-    // ambil data admin
-    $admin = query("SELECT * FROM admin WHERE username = '$email'");
+    // masukkan ke tabel keluarga
+    $insertKeluarga = mysqli_query($conn, "INSERT INTO keluarga VALUES (NULL, '$namaKeluarga', '$namaPasangan', '$domisili')");
+    
 
-    if (!empty($admin))
-    {
-
-      if (password_verify($password, $admin[0]['password']))
-      
+    if (!empty($insertKeluarga))
       {
           echo "
           <script>
-          alert ('Selamat Datang!');
-          document.location.href='index.php';
+          alert ('Berhasil!');
+          document.location.href='input-keluarga.php';
           </script>
           ";
       }else
@@ -27,18 +25,11 @@ if (isset($_POST['submit']))
           echo "
           <script>
           alert ('Tidak Valid!');
-          // document.location.href='login.php';
+          // document.location.href='input-keluarga.php';
           </script>
           ";
       }
-    }else{
-      echo "
-      <script>
-      alert ('Tidak Valid!');
-      // document.location.href='login.php';
-      </script>
-      ";
-  }
+    
 }
 
 ?>
@@ -115,21 +106,27 @@ if (isset($_POST['submit']))
   
               <div class="col-lg-6 z-index-2 mb-5"><img class="w-100" src="assets/img/gallery/appointment.png" alt="..." /></div>
               <div class="col-lg-6 z-index-2">
-                <h1 class="fw-light font-base fs-6 fs-xxl-7">Halaman <strong>Login Admin</strong></h1>
+                <h1 class="fw-light font-base fs-6 fs-xxl-7">Input <strong>Nama Keluarga</strong></h1>
                 <form class="row g-3" action="" method="POST">
                   
                   <div class="col-md-12">
-                    <label class="form-label visually-hidden" for="inputEmail">Email</label>
-                    <input class="form-control form-livedoc-control" id="inputEmail" name="email" type="email" placeholder="Email" />
+                    <label class="form-label visually-hidden" for="namaKeluarga">Nama Keluarga</label>
+                    <input class="form-control form-livedoc-control" id="namaKeluarga" name="namaKeluarga" type="text" placeholder="Nama Keluarga (Keturunan Mbah Yutir)" required />
                   </div>
                   <div class="col-md-12">
-                    <label class="form-label visually-hidden" for="password">Email</label>
-                    <input class="form-control form-livedoc-control" id="password" name="password" type="password" placeholder="Password" />
+                    <label class="form-label visually-hidden" for="namaPasangan">Nama Pasangan</label>
+                    <input class="form-control form-livedoc-control" id="namaPasangan" name="namaPasangan" type="text" placeholder="Nama Pasangan (optional)" />
                   </div>
+                  <div class="col-md-12">
+                    <label class="form-label visually-hidden" for="domisili">Domisili</label>
+                    <!-- <textarea class="form-control form-livedoc-control" id="domisili" name="domisili" type="text" placeholder="Domisili"  required > </textarea> -->
+                    <textarea  class="form-control form-livedoc-control" id="domisili" name="domisili"  placeholder="Domisili"></textarea>
+                  </div>
+                  
                   
                   <div class="col-12">
                     <div class="d-grid">
-                      <button class="btn btn-primary rounded-pill" name="submit" type="submit">Login</button>
+                      <button class="btn btn-primary rounded-pill" name="submit" type="submit">Submit</button>
                     </div>
                   </div>
                 </form>
