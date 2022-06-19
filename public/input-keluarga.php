@@ -3,7 +3,7 @@
 
 require "config.php";
 
-$keluarga = query("SELECT * FROM keluarga");
+$keluarga = query("SELECT * FROM keluarga ORDER BY nama_keluarga ASC");
 
 if (isset($_POST['submit'])) {
     $namaKeluarga = htmlspecialchars($_POST['namaKeluarga']);
@@ -127,6 +127,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && ($_POST['nama_hubungan'])) {
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet" />
     <link href="assets/css/theme.css" rel="stylesheet" />
 
 </head>
@@ -164,14 +165,14 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && ($_POST['nama_hubungan'])) {
         <section class="py-8">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 z-index-2">
+                    <div class="col-lg-6 z-index-2 mb-3">
                         <h1 class="fw-light font-base fs-6 fs-xxl-7">Seluruh <strong>Anggota Keluarga </strong></h1>
 
-                        <ol class="list-group list-group-numbered">
+                        <ol class="list-group list-group-numbered" style="overflow-y: scroll; height:200px;">
                             <?php foreach ($keluarga as $d) : ?>
-                                <li class="list-group-item"><?= $d['nama_keluarga'] ?><a href="hapus-keluarga.php?idKeluarga=<?= $d['id'] ?>" onclick="return confirm('apakah anda yakin?')"><span class="badge rounded-pill bg-danger float-end"> Hapus </span> </a>
+                                <li class="list-group-item"><?= $d['nama_keluarga'] ?><br><a href="hapus-keluarga.php?idKeluarga=<?= $d['id'] ?>" onclick="return confirm('apakah anda yakin?')"><span class="badge rounded-pill bg-danger float-end"> <i class="fa-solid fa-trash-can"></i> </span> </a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#detail<?= $d['id'] ?>" onclick="function tombol (e) { e.preventDefault()}">
-                                        <span class="badge rounded-pill bg-primary float-end"> Detail </span>
+                                        <span class="badge rounded-pill bg-primary float-end"> <i class="fa-solid fa-info"></i> </span>
                                     </a>
 
                                 </li>
@@ -184,7 +185,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && ($_POST['nama_hubungan'])) {
 
 
                     </div>
-                    <div class="col-lg-6 z-index-2">
+                    <div class="col-lg-6 z-index-2 mb-3">
 
                         <div>
                             <ul class="nav nav-tabs" id="myTab">
@@ -322,8 +323,8 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && ($_POST['nama_hubungan'])) {
 
     <!-- Modal -->
     <?php foreach ($keluarga as $d) : ?>
-        <div class="modal fade" id="detail<?= $d['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+        <div class="modal fade " id="detail<?= $d['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Detail Anggota Keluarga</h5>

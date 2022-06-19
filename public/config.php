@@ -49,3 +49,7 @@ function isHubungan($id_keluarga1, $id_keluarga2, $nama_hubungan)
 // var_dump(getNamaKeluargaById(3));
 // var_dump(isHubungan(5, 8, 'orang tua'));
 // die;
+
+?>
+
+<!-- <link href="/your-path-to-fontawesome/css/fontawesome.css" rel="stylesheet"> -->
