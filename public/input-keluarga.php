@@ -114,7 +114,9 @@ if (isset($_POST['submit']))
 
                         <ol class="list-group list-group-numbered">
                             <?php foreach($keluarga as $d) : ?>
-                            <li class="list-group-item"><?= $d['nama_keluarga'] ?><a href="#"><span
+                            <li class="list-group-item"><?= $d['nama_keluarga'] ?><a
+                                    href="hapus-keluarga.php?idKeluarga=<?= $d['id'] ?>"
+                                    onclick="return confirm('apakah anda yakin?')"><span
                                         class="badge rounded-pill bg-danger float-end"> Hapus </span> </a></li>
                             <?php endforeach; ?>
 
