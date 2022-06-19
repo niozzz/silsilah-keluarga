@@ -31,6 +31,70 @@ if (isset($_POST['submit'])) {
     }
 }
 
+// input hubungan
+
+if (($_SERVER['REQUEST_METHOD'] == 'POST') && ($_POST['nama_hubungan'])) {
+
+    // var_dump($_POST);
+    // die;
+
+    $id_keluarga1 = (int) htmlspecialchars($_POST['id_keluarga1']);
+    $id_keluarga2 = (int) htmlspecialchars($_POST['id_keluarga2']);
+    $nama_hubungan = htmlspecialchars($_POST['nama_hubungan']);
+    $nama_hubungan_balik = 'anak';
+
+    // var_dump($nama_hubungan);
+    if ($nama_hubungan == 'anak') {
+        $nama_hubungan_balik = 'orang tua';
+    }
+
+    if (!isHubungan($id_keluarga1, $id_keluarga2, $nama_hubungan)) {
+        $insertHubungan = mysqli_query($conn, "INSERT INTO hubungan VALUES (NULL, $id_keluarga1, $id_keluarga2, '$nama_hubungan')");
+
+        $insertHubunganBalik = mysqli_query($conn, "INSERT INTO hubungan VALUES (NULL, $id_keluarga2, $id_keluarga1, '$nama_hubungan_balik')");
+
+        if ($insertHubungan) {
+            if ($insertHubunganBalik) {
+                echo "
+        <script>
+        alert ('Berhasil!');
+        document.location.href='input-keluarga.php';
+        </script>
+        ";
+            } else {
+                echo "
+
+
+            <script>
+            alert ('Tidak Valid!');
+            // document.location.href='input-keluarga.php';
+            </script>
+            ";
+            }
+        } else {
+            echo "
+
+
+        <script>
+        alert ('Tidak Valid!');
+        // document.location.href='input-keluarga.php';
+        </script>
+        ";
+
+            // echo "error" . mysqli_error($conn);
+        }
+    } else {
+        echo "
+
+
+        <script>
+        alert ('Hubungan telah tersedia!');
+        // document.location.href='input-keluarga.php';
+        </script>
+        ";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -164,10 +228,10 @@ if (isset($_POST['submit'])) {
                                 <!-- input hubungan -->
                                 <div class="tab-pane fade" id="inputHubungan">
                                     <h1 class="fw-light font-base fs-6 fs-xxl-7">Input <strong>Hubungan</strong></h1>
-                                    <form class="row g-3" action="" method="POST">
+                                    <form id="formHubungan" class="row g-3" action="" method="POST">
 
                                         <div class="col-md-12">
-                                            <select class="form-select" name="id_keluarga1">
+                                            <select class="form-select" id="nama_keluarga1" name="id_keluarga1">
                                                 <option selected disabled required>Pilih Anggota Keluarga</option>
                                                 <?php foreach ($keluarga as $d) : ?>
                                                     <option value="<?= $d['id'] ?>"><?= $d['nama_keluarga'] ?></option>
@@ -177,7 +241,7 @@ if (isset($_POST['submit'])) {
 
                                         </div>
                                         <div class="col-md-12">
-                                            <select class="form-select" name="id_keluarga2">
+                                            <select class="form-select" id="nama_keluarga2" name="id_keluarga2">
                                                 <option selected disabled required>Pilih Anggota Keluarga</option>
                                                 <?php foreach ($keluarga as $d) : ?>
                                                     <option value="<?= $d['id'] ?>"><?= $d['nama_keluarga'] ?></option>
@@ -187,7 +251,7 @@ if (isset($_POST['submit'])) {
 
                                         </div>
                                         <div class="col-md-12">
-                                            <select class="form-select" name="nama_hubungan">
+                                            <select class="form-select" id="nama_hubungan" name="nama_hubungan">
                                                 <option selected disabled required>Pilih Nama Hubungan</option>
                                                 <option value="anak">Anak</option>
                                                 <option value="orang tua">Orang Tua</option>
@@ -199,7 +263,7 @@ if (isset($_POST['submit'])) {
 
                                         <div class="col-12">
                                             <div class="d-grid">
-                                                <button class="btn btn-primary rounded-pill" name="submit" onclick="return confirm('apakah anda yakin?')" type="submit">Submit</button>
+                                                <input class="btn btn-primary rounded-pill" name="submitHubungan" id="submitHubungan" value="Submit" type="button">
                                             </div>
                                         </div>
                                     </form>
@@ -299,6 +363,29 @@ if (isset($_POST['submit'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&amp;family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100&amp;display=swap" rel="stylesheet">
+
+    <script>
+        function getOptionText(elementSelect) {
+
+            return elementSelect.options[elementSelect.selectedIndex].text;
+
+
+        }
+        let nama_keluarga1 = document.getElementById('nama_keluarga1');
+        let nama_keluarga2 = document.getElementById('nama_keluarga2');
+        let nama_hubungan = document.getElementById('nama_hubungan');
+        let form_hubungan = document.getElementById('formHubungan');
+
+        document.getElementById('submitHubungan').addEventListener('click', function confirmHubungan(e) {
+            // alert('testing')
+            // e.preventDefault()
+            // console.log(getOptionText(nama_keluarga1));
+
+            if (confirm(`Apakah anda yakin ` + getOptionText(nama_keluarga1) + ` adalah ${nama_hubungan.value} dari ` + getOptionText(nama_keluarga2) + `?`)) {
+                form_hubungan.submit();
+            }
+        })
+    </script>
 </body>
 
 </html>
